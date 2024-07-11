@@ -1,4 +1,5 @@
-import sys, pygame
+import sys
+import pygame
 
 
 class RPS:
@@ -6,16 +7,17 @@ class RPS:
 
     def __init__(self):
         pygame.init()
+        self.clock = pygame.time.Clock()
+        self.settings = Settings()
 
-        self.screen_width, self.screen_height = 800, 600
-        self.screen = pygame.display.set_mode((self.screen_width, self.screen_height), pygame.RESIZABLE)
+        self.screen = pygame.display.set_mode(
+            (self.settings.screen_width, self.settings.screen_height))
+
+        self.screen = pygame.display.set_mode((1200, 800))
         pygame.display.set_caption("Rock Paper Scissors")
 
-        self.background_image = pygame.image.load("Lucky_RPS_sprites_win.png")
-        self.background_image = pygame.transform.scale(self.background_image, (self.screen_width, self.screen_height))
+        self.bg_color = (230, 230, 230)
 
-    def resize_background(self):
-        self.background_image = pygame.transform.scale(self.background_image, (self.screen_width, self.screen_height))
     def run_game(self):
         """Start main game loop."""
         while True:
@@ -23,14 +25,22 @@ class RPS:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     sys.exit()
-                elif event.type == pygame.VIDEORESIZE:
-                    self.screen_width, self.screen_height = event.w, event.h
-                    self.screen = pygame.display.set_mode((self.screen_width, self.screen_height), pygame.RESIZABLE)
-                    self.resize_background()
 
-            self.screen.blit(self.background_image, (0, 0))
         # Make the most recently drawn screen visible.
+            self.screen.fill(self.settings.bg_color)
             pygame.display.flip()
+            self.clock.tick(60)
+
+
+class Settings:
+    """A class to store all settings for Alien Invasion"""
+
+    def __init__(self):
+        """Initialize game's settings."""
+        # Screen settings
+        self.screen_width = 1200
+        self.screen_height = 800
+        self.bg_color = (230, 230, 230)
 
 
 if __name__ == '__main__':
